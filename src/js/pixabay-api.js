@@ -1,16 +1,20 @@
+// pixabay-api.js
 import axios from 'axios';
 
+//  API-ключ вставлен прямо в код
+const API_KEY = '51718020-504e1b86ae47f9489a580fda2';
 const API_URL = 'https://pixabay.com/api/';
-const API_KEY = import.meta.env.VITE_PIXABAY_API_KEY || 'YOUR_PIXABAY_API_KEY';
 
 axios.defaults.baseURL = API_URL;
 
 /**
  * HTTP-запит до Pixabay за ключовим словом.
- * @param {string} query
- * @returns {Promise<Object>} response.data
+ * @param {string} query - Пошуковий запит
+ * @param {number} page - Номер сторінки (за замовчуванням 1)
+ * @param {number} perPage - Кількість зображень на сторінку (за замовчуванням 40)
+ * @returns {Promise<Object>} - Дані з Pixabay API
  */
-export function getImagesByQuery(query) {
+export function getImagesByQuery(query, page = 1, perPage = 40) {
   return axios
     .get('', {
       params: {
@@ -18,15 +22,13 @@ export function getImagesByQuery(query) {
         q: query,
         image_type: 'photo',
         orientation: 'horizontal',
-        safesearch: true
+        safesearch: true,
+        page,
+        per_page: perPage
       }
     })
     .then(res => res.data)
     .catch(err => {
-      // Прокидуємо помилку далі
       throw err;
     });
 }
-
-console.log('ENV', import.meta.env);
-console.log('API_KEY', import.meta.env.VITE_PIXABAY_API_KEY);
