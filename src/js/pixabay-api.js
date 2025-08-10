@@ -27,3 +27,6 @@ export function getImagesByQuery(query) {
       throw err;
     });
 }
+
+console.log('ENV', import.meta.env);
+console.log('API_KEY', import.meta.env.VITE_PIXABAY_API_KEY);
